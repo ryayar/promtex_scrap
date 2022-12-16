@@ -59,8 +59,8 @@
                            value="{{ product.id }}">
                     <label for="cp-input-new_{{ product.id }}">как новый</label>
                 </div>
-                <a href="dele/{{product.id}}">Удалить</a>
-                <a href="edit/{{product.id}}">Edit</a>
+                <a href="{% url 'dele' product.id %}">Удалить</a>
+                <a href="{% url 'edit' product.id %}">Edit</a>
             </div>
         </div>
         {% endfor %}
