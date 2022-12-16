@@ -1,0 +1,23 @@
+{% extends "scrap/base.html" %}
+{% block title %}Результаты{% endblock title %}
+{% block links %}
+<a class="header__nav-link" href="{% url 'home' %}">Поиск</a>
+<a class="header__nav-link is-active" href="{% url 'result' %}">Результаты</a>
+<a class="header__nav-link" href="">Управление</a>
+{% endblock links %}
+
+{% block content %}
+
+<div class="home__page">
+    <div class="home__page-name">
+        <h2>Результаты</h2>
+    </div>
+</div>
+
+{% include 'scrap/modules/search_form.html' %}
+
+<div class="home__forms-title home__title"><span>Все запросы</span></div>
+
+{% include 'scrap/modules/results_whith_groupe.html' %}
+
+{% endblock content %}

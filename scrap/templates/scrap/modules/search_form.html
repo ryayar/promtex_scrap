@@ -1,0 +1,35 @@
+<form method="POST" action="create/">
+    {% csrf_token %}
+    <div class="home__search-form">
+        <div class="home__search-form-title home__title"><span>Поиск</span></div>
+        <div class="home__search-form-body">
+            <input class="home__search-form__input" type="text" name="query">
+            <input class="home__search-form__button button" type="submit" value="Поиск">
+        </div>
+    </div>
+    <div class="home__settings">
+        <div style="display: flex; align-items: center;">
+            <span class="home__settings-text">Настройки</span>
+            <div class="home__settings-form button">Показать / Скрыть</div>
+        </div>
+        <div class="home__setting">
+            <div class="home__platform-scrap">
+                <div class="home__platform-scrap-platform">
+                    <input class="home__platform-scrap-input" id="platform-ebay" type="checkbox" name="ebay"
+                           value="checked">
+                    <label for="platform-ebay">Ebay</label>
+                </div>
+                <div class="home__platform-scrap-platform">
+                    <input class="home__platform-scrap-input" id="platform-ali" type="checkbox" name="ali"
+                           value="checked">
+                    <label for="platform-ali">AliExpress</label>
+                </div>
+                <div class="home__platform-scrap-platform">
+                    <input class="home__platform-scrap-input" id="platform-avito" type="checkbox" name="avito"
+                           value="checked">
+                    <label for="platform-avito">Avito</label>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,49 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" href="{% static 'scrap/css/main.css' %}">
+    <title>{% block title %}{% endblock title %}</title>
+</head>
+<body>
+<script>
+    window.data = {
+        // home: {},
+    };
+</script>
+
+<div class="site">
+    <header class="header">
+        <div class="header__body">
+            <div class="header__nav">
+                <div class="header__logo"><img class="logo" src="" width="40"></div>
+                <div class="header__nav-links">
+                    {% block links %}{% endblock links %}
+                </div>
+            </div>
+            <div class="header__visitor"><span>Admin</span></div>
+        </div>
+    </header>
+    <main class="home">
+        {% block content%}{% endblock content %}
+    </main>
+</div>
+<footer class="footer">
+    <div class="footer__copyright"><span data-actual-year></span></div>
+    <div class="footer__developer"></div>
+</footer>
+</div>
+<script>
+    if (!('IntersectionObserver' in window)) {
+        var script = document.createElement("script");
+        script.src = "https://raw.githubusercontent.com/w3c/IntersectionObserver/master/polyfill/intersection-observer.js";
+        document.getElementsByTagName('head')[0].appendChild(script);
+    }
+</script>
+<script src="{% static 'scrap/js/vendor.js' %}"></script>
+<script src="{% static 'scrap/js/main.js' %}"></script>
+</body>
+</html>

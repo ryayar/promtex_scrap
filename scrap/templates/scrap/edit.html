@@ -1,0 +1,23 @@
+{% extends "scrap/base.html" %}
+{% block title %}Изменение{% endblock title %}
+{% block header %}Изменение{% endblock header %}
+{% block links %}
+    <a class="header__nav-link" href="/">Поиск</a>
+    <a class="header__nav-link" href="/result/">Результаты</a>
+    <a class="header__nav-link" href="">Управление</a>
+{% endblock links %}
+{% block content %}
+<form method="POST">
+    {% csrf_token %}
+    <p>
+        <label>Введите имя</label><br>
+        <input type="text" name="name" value="{{person.product_scrap_name}}"/>
+    </p>
+    <p>
+        <label>Введите возраст</label><br>
+        <input type="text" name="name" value="{{person.product_price}}"/>
+    </p>
+    <input type="submit" value="Сохранить">
+</form>
+<br><br>
+{% endblock content %}

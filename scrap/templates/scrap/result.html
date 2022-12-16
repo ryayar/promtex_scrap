@@ -1,0 +1,74 @@
+{% extends "scrap/base.html" %}
+{% block title %}{{ query_name.0.product_query_name }}{% endblock title %}
+{% block links %}
+<a class="header__nav-link" href="{% url 'home' %}">Поиск</a>
+<a class="header__nav-link is-active" href="{% url 'result' %}">Результаты</a>
+<a class="header__nav-link" href="">Управление</a>
+{% endblock links %}
+
+{% block content %}
+
+<div class="home__page">
+    <div class="home__page-name">
+        <h2>{{ query_name.0.product_query_name }}</h2>
+    </div>
+</div>
+
+{% if positions.count > 0 %}
+<form method="POST" action="delete/">
+    {% csrf_token %}
+    <input class="delete-form__button" type="submit" value="Удалить все" name="delete">
+</form>
+{% endif %}
+
+<div class="home__forms-title home__title"><span>Все результаты по запросу: "{{ query_name.0.product_query_name }}"</span></div>
+
+<div class="home__forms-body">
+    <div class="positions-forms">
+        {% for product in positions %}
+        <div class="position-form">
+            <div style="display: none">{{ product.id }}</div>
+            <div class="position__img">
+                <a href="{{ product.product_link }}" target="_blank">
+                    <img src="{{ product.product_link_img }}" alt="" width="200" height="200">
+                </a>
+            </div>
+            <div class="position__body">
+                <div class="position__name">
+                    <a href="{{ product.product_link }}" target="_blank">{{ product.product_scrap_name }}</a>
+                </div>
+                <div class="position__quality">
+                    {% if product.product_quality %}
+                    {{ product.product_quality }}
+                    {% else %}
+                    <span style="color:#b90012;">Состояние: Неизвестно</span>
+                    {% endif %}
+                </div>
+                <div class="position__city">{{ product.product_country }}</div>
+                <div class="position__platform">Платформа: {{ product.product_platform }}</div>
+            </div>
+            <div class="position__cp">
+                <div class="position__price">{{ product.product_price }}</div>
+                <div class="cp__bu">
+                    <input class="cp-input" id="cp-input-bu_{{ product.id }}" type="checkbox" name="bu"
+                           value="{{ product.id }}">
+                    <label for="cp-input-bu_{{ product.id }}">как Б/У</label>
+                </div>
+                <div class="cp__new">
+                    <input class="cp-input" id="cp-input-new_{{ product.id }}" type="checkbox" name="new"
+                           value="{{ product.id }}">
+                    <label for="cp-input-new_{{ product.id }}">как новый</label>
+                </div>
+                <a href="dele/{{product.id}}">Удалить</a>
+                <a href="edit/{{product.id}}">Edit</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+
+<div style="display: flex; align-items: center;">
+    <div class="home__generate-offer button">Сформировать КП</div>
+</div>
+{% endblock content %}
