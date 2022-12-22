@@ -483,6 +483,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_lazyLoading__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./modules/lazyLoading */ "./src/js/modules/lazyLoading.js");
 /* harmony import */ var _modules_scrollToAnchor__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./modules/scrollToAnchor */ "./src/js/modules/scrollToAnchor.js");
 /* harmony import */ var _modules_showHideSettings__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./modules/showHideSettings */ "./src/js/modules/showHideSettings.js");
+/* harmony import */ var _modules_generateOffer__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./modules/generateOffer */ "./src/js/modules/generateOffer.js");
+
 
 
 
@@ -498,6 +500,7 @@ Object(_vendor_vh_fix__WEBPACK_IMPORTED_MODULE_4__["vhFix"])();
 Object(_modules_actualYear__WEBPACK_IMPORTED_MODULE_5__["actualYear"])();
 _modules_scrollToAnchor__WEBPACK_IMPORTED_MODULE_8__["default"].init();
 _modules_showHideSettings__WEBPACK_IMPORTED_MODULE_9__["default"].init();
+_modules_generateOffer__WEBPACK_IMPORTED_MODULE_10__["default"].init();
 _components_header__WEBPACK_IMPORTED_MODULE_6__["default"].init();
 _modules_lazyLoading__WEBPACK_IMPORTED_MODULE_7__["default"].init();
 
@@ -522,6 +525,35 @@ var actualYear = function actualYear() {
     document.querySelector('[data-actual-year]').textContent = year;
   }
 };
+
+/***/ }),
+
+/***/ "./src/js/modules/generateOffer.js":
+/*!*****************************************!*\
+  !*** ./src/js/modules/generateOffer.js ***!
+  \*****************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _helpers__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../helpers */ "./src/js/helpers.js");
+var _this = undefined;
+
+var init = function init() {
+  _helpers__WEBPACK_IMPORTED_MODULE_0__["default"].$document.ready(function ($) {
+    $('input[type=\'checkbox\']').on('change', function () {
+      // Это короткая запись, которая означает то же, что и if($(this).prop('checked') == true)
+      if ($(_this).prop('checked')) {
+        var lol = ' || ' + ($(_this).data('type') + '_' + $(_this).data('value'));
+      }
+    });
+  });
+  _helpers__WEBPACK_IMPORTED_MODULE_0__["default"].$document.on('click', '.home__generate-offer', function () {});
+};
+/* harmony default export */ __webpack_exports__["default"] = ({
+  init: init
+});
 
 /***/ }),
 

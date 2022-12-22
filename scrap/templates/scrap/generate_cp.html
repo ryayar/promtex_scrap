@@ -1,0 +1,21 @@
+{% extends "scrap/base.html" %}
+{% block title %}{{ query_name.0.product_query_name }}{% endblock title %}
+{% block content %}
+
+<div class="home__page">
+    <div class="home__page-name">
+        <h2>Формирование КП по позиции: {{ new.0.product_query_name }}</h2>
+    </div>
+</div>
+
+<div class="home__forms-title home__title"><span></span></div>
+<div class="home__forms-table">
+<textarea class="home__generate_cp" cols="50" rows="20">
+{% if new.0.product_query_name %}{{ new.0.product_query_name }}{% else %}{{ bu.0.product_query_name }}{% endif %}{% for product in new %}
+Новый {{ product.product_price }} {% if product.product_platform in 'Ebay' %}4-6 недель{% elif product.product_platform in 'AliExpress' %}3-4 недели{% elif product.product_platform in 'Avito' %}1-2 недели{% endif %} {% endfor %}{% for product in bu %}
+Б/У {{ product.product_price }} {% if product.product_platform in 'Ebay' %}4-6 недель{% elif product.product_platform in 'AliExpress' %}3-4 недели{% elif product.product_platform in 'Avito' %}1-2 недели{% endif %}{% endfor %}
+</textarea>
+</div>
+
+
+{% endblock content %}
