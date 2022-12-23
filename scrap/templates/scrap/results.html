@@ -1,11 +1,5 @@
 {% extends "scrap/base.html" %}
 {% block title %}Результаты{% endblock title %}
-{% block links %}
-<a class="header__nav-link {{ active }}" href="{% url 'home' %}">Поиск</a>
-<a class="header__nav-link " href="{% url 'result' %}">Результаты</a>
-<a class="header__nav-link " href="">Управление</a>
-{% endblock links %}
-
 {% block content %}
 
 <div class="home__page">

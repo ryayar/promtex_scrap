@@ -75,7 +75,10 @@ def write_db(product_name, last_query_id, query):
         product.product_platform = value[0]
         product.product_scrap_name = value[1]
         product.product_link = value[2]
-        product.product_link_img = value[3]
+        if value[3] is None:
+            product.product_link_img = 'https://ae01.alicdn.com/kf/Sf5580f12cd9c4f63b75d8811390c36d5S/800x800.png'
+        else:
+            product.product_link_img = value[3]
         product.product_price = value[4]
         product.product_country = value[5]
         try:

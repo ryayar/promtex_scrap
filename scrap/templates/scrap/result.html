@@ -1,28 +1,18 @@
 {% extends "scrap/base.html" %}
-{% block title %}{{ query_name.0.product_query_name }}{% endblock title %}
-{% block links %}
-<a class="header__nav-link" href="{% url 'home' %}">Поиск</a>
-<a class="header__nav-link is-active" href="{% url 'result' %}">Результаты</a>
-<a class="header__nav-link" href="">Управление</a>
-{% endblock links %}
-
+{% block title %}{{ positions.0.product_query_name }}{% endblock title %}
 {% block content %}
 
 <div class="home__page">
     <div class="home__page-name">
-        <h2>{{ query_name.0.product_query_name }}</h2>
+        <h2>{{ positions.0.product_query_name }}</h2>
     </div>
 </div>
 
-{% if positions.count > 0 %}
-<form method="POST" action="delete/">
-    {% csrf_token %}
-    <input class="delete-form__button" type="submit" value="Удалить все" name="delete">
-</form>
-{% endif %}
 
-<div class="home__forms-title home__title"><span>Все результаты по запросу: "{{ query_name.0.product_query_name }}"</span></div>
 
+<div class="home__forms-title home__title"><span>Все результаты по запросу: "{{ positions.0.product_query_name }}"</span></div>
+<form method="POST" action="/generate_cp/">
+{% csrf_token %}
 <div class="home__forms-body">
     <div class="positions-forms">
         {% for product in positions %}
@@ -39,12 +29,12 @@
                 </div>
                 <div class="position__quality">
                     {% if product.product_quality %}
-                    {{ product.product_quality }}
+                    Состояние: {{ product.product_quality }}
                     {% else %}
                     <span style="color:#b90012;">Состояние: Неизвестно</span>
                     {% endif %}
                 </div>
-                <div class="position__city">{{ product.product_country }}</div>
+                <div class="position__city">{% if product.product_platform == 'Ebay' or product.product_platform == 'AliExpress' %}Страна: {% elif product.product_platform == 'Avito' %}Город: {% endif %}{{ product.product_country }}</div>
                 <div class="position__platform">Платформа: {{ product.product_platform }}</div>
             </div>
             <div class="position__cp">
@@ -59,8 +49,6 @@
                            value="{{ product.id }}">
                     <label for="cp-input-new_{{ product.id }}">как новый</label>
                 </div>
-                <a href="{% url 'dele' product.id %}">Удалить</a>
-                <a href="{% url 'edit' product.id %}">Edit</a>
             </div>
         </div>
         {% endfor %}
@@ -69,6 +57,8 @@
 
 
 <div style="display: flex; align-items: center;">
-    <div class="home__generate-offer button">Сформировать КП</div>
+<!--    <div class="home__generate-offer button"><a></a></div>-->
+    <input class="home__generate-offer button" type="submit" value="Сформировать КП">
 </div>
+</form>
 {% endblock content %}
