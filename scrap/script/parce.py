@@ -3,11 +3,10 @@ import re
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
-import sqlite3
 import requests
 
 
-def scrap_ebay(src='', dollar_rate=68.62, our_course=57.5):
+def scrap_ebay(src='', dollar_rate=57.5, our_course=100):
     ppp = {}
     position = []
     headers = {
@@ -73,7 +72,7 @@ def scrap_ebay(src='', dollar_rate=68.62, our_course=57.5):
         return ppp
 
 
-def scrap_ali(src='', dollar_rate=68.62, our_course=57.5):
+def scrap_ali(src='', dollar_rate=57.5, our_course=100):
     ppp = {}
     position = []
     headers = {
@@ -151,7 +150,7 @@ def scrap_ali(src='', dollar_rate=68.62, our_course=57.5):
         return ppp
 
 
-def scrap_avito(src='', dollar_rate=68.62, our_course=57.5):
+def scrap_avito(src='', dollar_rate=57.5, our_course=100):
     ppp = {}
     position = []
     driver = webdriver.Chrome(executable_path='chromeDriver\chromedriver.exe')
