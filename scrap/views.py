@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect, HttpResponseNotFound
+from django.contrib.auth.decorators import login_required
 from .forms import UserForm
 from .models import ScrapProduct
 from .script import parce
@@ -15,6 +16,7 @@ not_found = "<h2 style='" \
 
 
 # получение данных из бд
+@login_required
 def index(request):
     select_data = """
             SELECT id
@@ -37,7 +39,7 @@ def index(request):
     # print(scrap_product_2)
     return render(request, "scrap/index.html", {"group_positions": scrap_product_group, 'page': 'home'})
 
-
+@login_required
 def create(request):
     if request.method == "POST":
         product_name = request.POST.get("query")
@@ -66,7 +68,7 @@ def create(request):
 
     return HttpResponseRedirect("/")
 
-
+@login_required
 def write_db(product_name, last_query_id, query):
     for key, value in query.items():
         product = ScrapProduct()
@@ -91,6 +93,7 @@ def write_db(product_name, last_query_id, query):
 
 
 # изменение данных в бд
+@login_required
 def edit(request, id):
     try:
         person = ScrapProduct.objects.get(id=id)
@@ -106,7 +109,7 @@ def edit(request, id):
     except ScrapProduct.DoesNotExist:
         return HttpResponseNotFound(not_found)
 
-
+@login_required
 def results(request):
     select_data = """SELECT id, query_id, product_query_name, product_platform
                   FROM scrap_scrapproduct
@@ -116,7 +119,7 @@ def results(request):
     scrap_product_group = ScrapProduct.objects.raw(select_data)
     return render(request, "scrap/results.html", {"group_positions": scrap_product_group, 'page': 'result'})
 
-
+@login_required
 def result(request, query_id=0):
     if not query_id:
         return redirect(results)
@@ -143,7 +146,7 @@ def result(request, query_id=0):
     # product_all = ScrapProduct.objects.all()
     # return render(request, "scrap/result.html", {"positions": product_all})
 
-
+@login_required
 def generate_cp(request):
     try:
         if request.method == "POST":
@@ -166,6 +169,7 @@ def generate_cp(request):
 
 
 # удаление данных из бд
+@login_required
 def delete(request):
     ScrapProduct.objects.all().delete()
     # last_id = ebay.objects.last().id
@@ -183,6 +187,7 @@ def delete(request):
 
 
 # удаление данных из бд
+@login_required
 def dele(request, id):
     try:
         product = ScrapProduct.objects.get(id=id)
@@ -191,6 +196,6 @@ def dele(request, id):
     except ScrapProduct.DoesNotExist:
         return HttpResponseNotFound(not_found)
 
-
+@login_required
 def contact(request):
     return render(request, "scrap/contact.html")
