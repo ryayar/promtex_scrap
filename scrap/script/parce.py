@@ -42,18 +42,21 @@ def scrap_ebay(src='', dollar_rate=57.5, our_course=100):
                         needed_body.find_all('span', 's-item__price')]
         needed_price = []
         for price in prices:
-            price = int(price)
-            if price < 100:
-                price = 100
+            try:
+                price = int(price)
+                if price < 100:
+                    price = 100
 
-            priceUSD = price / dollar_rate
-            if priceUSD < 250:
-                price = priceUSD * our_course * 2
-            elif priceUSD < 500:
-                price = 500 * our_course
-            else:
-                price = priceUSD * our_course
-            needed_price.append(f'{int(price)} р/шт')
+                priceUSD = price / dollar_rate
+                if priceUSD < 250:
+                    price = priceUSD * our_course * 2
+                elif priceUSD < 500:
+                    price = 500 * our_course
+                else:
+                    price = priceUSD * our_course
+                needed_price.append(f'{int(price)} р/шт')
+            except:
+                needed_price.append(f'{price} р/шт')
 
         for i in range(0, len(needed_headers)):
             position.append('Ebay')

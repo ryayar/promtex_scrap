@@ -18,14 +18,16 @@ not_found = "<h2 style='" \
 # получение данных из бд
 @login_required
 def index(request):
-    select_data = """
+    select_data = f"""
             SELECT id
             FROM scrap_scrapproduct
+            WHERE user_name='{request.user}'
             GROUP BY query_id
             ORDER BY query_id DESC
             LIMIT 10"""
 
     scrap_product_group = ScrapProduct.objects.raw(select_data)
+
     # for i in scrap_product_group:
     #     print(i)
     # print(scrap_product_group)
@@ -37,11 +39,14 @@ def index(request):
     # print(scrap_product_1)
     # print('*'*50)
     # print(scrap_product_2)
-    return render(request, "scrap/index.html", {"group_positions": scrap_product_group, 'page': 'home'})
+    return render(request, "scrap/index.html",
+                  {"group_positions": scrap_product_group, 'page': 'home', 'user': request.user})
+
 
 @login_required
 def create(request):
     if request.method == "POST":
+        user = request.user
         product_name = request.POST.get("query")
 
         try:
@@ -49,27 +54,25 @@ def create(request):
         except:
             last_query_id = 0
 
-        print(request.POST.get('ebay'))
-
         if request.POST.get('ebay') == 'checked':
             query_ebay = parce.scrap_ebay(product_name)
             if query_ebay:
-                write_db(product_name, last_query_id, query_ebay)
+                write_db(product_name, last_query_id, query_ebay, user)
 
         if request.POST.get('ali') == 'checked':
             query_ali = parce.scrap_ali(product_name)
             if query_ali:
-                write_db(product_name, last_query_id, query_ali)
+                write_db(product_name, last_query_id, query_ali, user)
 
         if request.POST.get('avito') == 'checked':
             query_avito = parce.scrap_avito(product_name)
             if query_avito:
-                write_db(product_name, last_query_id, query_avito)
+                write_db(product_name, last_query_id, query_avito, user)
 
     return HttpResponseRedirect("/")
 
-@login_required
-def write_db(product_name, last_query_id, query):
+
+def write_db(product_name, last_query_id, query, user):
     for key, value in query.items():
         product = ScrapProduct()
         product.query_id = last_query_id + 1
@@ -87,7 +90,7 @@ def write_db(product_name, last_query_id, query):
             product.product_quality = value[6]
         except:
             pass
-        product.user_name = 'Admin'
+        product.user_name = user
 
         product.save()
 
@@ -105,19 +108,29 @@ def edit(request, id):
             return HttpResponseRedirect("/")
         else:
             print(f'-------------------\n{id}\n-------------------')
-            return render(request, "scrap/edit.html", {"person": person, 'page': 'edit'})
+            return render(request, "scrap/edit.html", {"person": person, 'page': 'edit', 'user': request.user})
     except ScrapProduct.DoesNotExist:
         return HttpResponseNotFound(not_found)
 
+
 @login_required
 def results(request):
-    select_data = """SELECT id, query_id, product_query_name, product_platform
-                  FROM scrap_scrapproduct
-                  GROUP BY query_id
-                  ORDER BY query_id DESC"""
+    if request.user != 'Admin':
+        select_data = f"""SELECT id, query_id, product_query_name, product_platform
+                      FROM scrap_scrapproduct
+                      WHERE user_name = '{request.user}'
+                      GROUP BY query_id
+                      ORDER BY query_id DESC"""
+    else:
+        select_data = f"""SELECT id, query_id, product_query_name, product_platform
+                              FROM scrap_scrapproduct
+                              GROUP BY query_id
+                              ORDER BY query_id DESC"""
 
     scrap_product_group = ScrapProduct.objects.raw(select_data)
-    return render(request, "scrap/results.html", {"group_positions": scrap_product_group, 'page': 'result'})
+    return render(request, "scrap/results.html",
+                  {"group_positions": scrap_product_group, 'page': 'result', 'user': request.user})
+
 
 @login_required
 def result(request, query_id=0):
@@ -130,12 +143,12 @@ def result(request, query_id=0):
                                               FROM scrap_scrapproduct
                                               WHERE query_id={query_id}
                                               GROUP BY query_id""")
-        name = query_name
         if positions:
             data = {
                 "positions": positions,
-                "query_name": name,
+                "query_name": query_name,
                 'page': 'result',
+                'user': request.user,
             }
             return render(request, "scrap/result.html", data)
         else:
@@ -145,6 +158,7 @@ def result(request, query_id=0):
 
     # product_all = ScrapProduct.objects.all()
     # return render(request, "scrap/result.html", {"positions": product_all})
+
 
 @login_required
 def generate_cp(request):
@@ -158,7 +172,7 @@ def generate_cp(request):
 
                 new = ScrapProduct.objects.filter(id__in=checkbox_new)
                 bu = ScrapProduct.objects.filter(id__in=checkbox_bu)
-                return render(request, "scrap/generate_cp.html", {"new": new, "bu": bu})
+                return render(request, "scrap/generate_cp.html", {"new": new, "bu": bu, 'user': request.user})
             else:
                 return redirect(request.META.get('HTTP_REFERER'))
         # else:
@@ -195,6 +209,7 @@ def dele(request, id):
         return redirect(request.META.get('HTTP_REFERER'))
     except ScrapProduct.DoesNotExist:
         return HttpResponseNotFound(not_found)
+
 
 @login_required
 def contact(request):
