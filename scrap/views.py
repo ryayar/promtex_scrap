@@ -18,13 +18,17 @@ not_found = "<h2 style='" \
 # получение данных из бд
 @login_required
 def index(request):
-    select_data = f"""
-            SELECT id
-            FROM scrap_scrapproduct
-            WHERE user_name='{request.user}'
-            GROUP BY query_id
-            ORDER BY query_id DESC
-            LIMIT 10"""
+    if request.user != 'Admin' or request.user != 'admin':
+        select_data = f"""SELECT id, query_id, product_query_name, product_platform
+                      FROM scrap_scrapproduct
+                      WHERE user_name = '{request.user}'
+                      GROUP BY query_id
+                      ORDER BY query_id DESC"""
+    else:
+        select_data = f"""SELECT id, query_id, product_query_name, product_platform
+                              FROM scrap_scrapproduct
+                              GROUP BY query_id
+                              ORDER BY query_id DESC"""
 
     scrap_product_group = ScrapProduct.objects.raw(select_data)
 
@@ -115,7 +119,7 @@ def edit(request, id):
 
 @login_required
 def results(request):
-    if request.user != 'Admin':
+    if request.user != 'Admin' and request.user != 'admin':
         select_data = f"""SELECT id, query_id, product_query_name, product_platform
                       FROM scrap_scrapproduct
                       WHERE user_name = '{request.user}'
