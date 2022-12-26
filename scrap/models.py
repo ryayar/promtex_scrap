@@ -1,12 +1,11 @@
 from django.db import models
-from datetime import datetime
 from django.urls import reverse
 from django.contrib.auth.models import User
 
 
 class ScrapProduct(models.Model):
     query_id = models.IntegerField()
-    query_date = models.DateTimeField(default=datetime.now())
+    query_date = models.DateTimeField(auto_now_add=True)
     product_query_name = models.CharField(max_length=200)
     product_scrap_name = models.CharField(max_length=200)
     product_link = models.CharField(max_length=200)

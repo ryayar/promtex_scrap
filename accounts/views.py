@@ -2,7 +2,7 @@ from django.contrib.auth import authenticate, login
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.views import View
-from accounts.forms import LoginForm
+from .forms import LoginForm
 
 
 class LoginView(View):
