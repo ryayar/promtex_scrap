@@ -21,7 +21,7 @@
                     <a class="header__nav-link{% if page == 'edit' %} is-active{% endif %}" href="">Управление</a>
                 </div>
             </div>
-            <div class="header__visitor"><span>{% if user.id != None %}{{ user }}{% endif %} </span></div>
+            <div class="header__visitor"><span>{% if user.id != None %}<a href="{% url 'logout' %}">{{ user }}</a>{% endif %} </span></div>
         </div>
     </header>
     <main class="home">
