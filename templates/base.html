@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width">
-    <link rel="stylesheet" href="{% static 'scrap/css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
     <title>{% block title %}{% endblock title %}</title>
 </head>
 <body>
@@ -14,7 +14,7 @@
     <header class="header">
         <div class="header__body">
             <div class="header__nav">
-                <div class="header__logo"><a href="{% url 'home' %}"><img class="logo" src="../../static/scrap/images/logo.png" width="40"></a></div>
+                <div class="header__logo"><a href="{% url 'home' %}"><img class="logo" src="{% static 'images/logo.png' %}" width="40"></a></div>
                 <div class="header__nav-links">
                     <a class="header__nav-link{% if page == 'home' %} is-active{% endif %}" href="{% url 'home' %}">Поиск</a>
                     <a class="header__nav-link{% if page == 'result' %} is-active{% endif %}" href="{% url 'result' %}">Результаты</a>
@@ -40,7 +40,7 @@
         document.getElementsByTagName('head')[0].appendChild(script);
     }
 </script>
-<script src="{% static 'scrap/js/vendor.js' %}"></script>
-<script src="{% static 'scrap/js/main.js' %}"></script>
+<script src="{% static 'js/vendor.js' %}"></script>
+<script src="{% static 'js/main.js' %}"></script>
 </body>
 </html>

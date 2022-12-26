@@ -1,16 +1,18 @@
-{% extends 'accounts/base.html' %}
+{% extends 'base.html' %}
 {% block title %}Войдите{% endblock title %}
 {% block content %}
-<h1>Вход</h1>
-{% if form.errors %}
-<p>Ошибка: пароль или логин неправильные. Попробуйте снова</p>
-{% else %}
-<p>введите логин/пароль:</p>
-{% endif %}
-<form action="." method="POST" class="login">
-    {{ form.as_p }}
-    {% csrf_token %}
-    <input type="hidden" name="next" value="{{ next }}"/>
-    <button type="submit">Войти</button>
-</form>
+<div class="home__page">
+    <div class="home__page-name">
+        <h2>Вход</h2>
+    </div>
+</div>
+<div class="login">
+    <form class="all-forms" action="." method="POST">
+        {{ form.as_p }}
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{{ next }}"/>
+        <button class="button" type="submit">Войти</button>
+    </form>
+    <a class="register" href="{% url 'register' %}">Зарегистрироваться</a>
+</div>
 {% endblock content %}

@@ -830,6 +830,52 @@ iframe {
       -ms-flex-pack: center;
           justify-content: center;
   font-weight: 500; }
+  .home .login {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    height: 70vh; }
+    .home .login form {
+      max-width: 30rem;
+      padding: 30px; }
+    .home .login form .errorlist {
+      color: #c52c2c;
+    }
+      .home .login form p {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-pack: justify;
+            -ms-flex-pack: justify;
+                justify-content: space-between;
+        -webkit-box-align: center;
+            -ms-flex-align: center;
+                align-items: center;
+        margin: 15px 0; }
+      .home .login form label {
+        margin-right: 30px; }
+      .home .login form input[type='text'], .home .login form input[type='password'] {
+        border: 1px solid #ccc;
+        padding: 6px 12px;
+        border-radius: 0.5rem; }
+    .home .login .register {
+      margin: 15px 0;
+      font-weight: 100; }
+  .home .all-forms {
+    border-radius: 0.5rem;
+    padding: 16px;
+    max-width: 80rem;
+    background: #fff; }
   .home__title {
     margin: 0 auto;
     border-bottom: 1px solid #ccc;

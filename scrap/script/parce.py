@@ -54,9 +54,9 @@ def scrap_ebay(src='', dollar_rate=57.5, our_course=100):
                     price = 500 * our_course
                 else:
                     price = priceUSD * our_course
-                needed_price.append(f'{int(price)} р/шт')
+                needed_price.append(f'{int(price)},00 р/шт')
             except:
-                needed_price.append(f'{price} р/шт')
+                needed_price.append(f'{price},00 р/шт')
 
         for i in range(0, len(needed_headers)):
             position.append('Ebay')
@@ -137,7 +137,7 @@ def scrap_ali(src='', dollar_rate=57.5, our_course=100):
                 price = 500 * our_course
             else:
                 price = priceUSD * our_course
-            needed_price.append(f'{int(price)} р/шт')
+            needed_price.append(f'{int(price)},00 р/шт')
 
         for i in range(0, len(needed_headers)):
             position.append('AliExpress')
@@ -189,7 +189,7 @@ def scrap_avito(src='', dollar_rate=57.5, our_course=100):
             price = 500 * our_course
         else:
             price = priceUSD * our_course
-        needed_price.append(f'{int(price)} р/шт')
+        needed_price.append(f'{int(price)},00 р/шт')
 
     for i in range(0, len(name)):
         position.append('Avito')

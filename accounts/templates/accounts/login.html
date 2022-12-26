@@ -1,11 +1,12 @@
-{% extends 'accounts/base.html' %}
-{% block title %}Авторизация{% endblock title %}
+{% extends 'base.html' %}
+{% block title %}Войдите{% endblock %}
 {% block content %}
 <h1>Вход</h1>
 <p>введите логин/пароль:</p>
-<form action="." method="POST">
+<form class="login" action="." method="POST">
     {{ form.as_p }}
     {% csrf_token %}
     <button type="submit">Войти</button>
 </form>
-{% endblock content %}
+<a href="{% url 'register' %}">зарегистрироваться</a>
+{% endblock %}
