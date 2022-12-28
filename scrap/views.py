@@ -43,35 +43,44 @@ def index(request):
     # print(scrap_product_1)
     # print('*'*50)
     # print(scrap_product_2)
-    return render(request, "scrap/index.html",
-                  {"group_positions": scrap_product_group, 'page': 'home', 'user': request.user})
+    return render(request, 'scrap/index.html',
+                  {'group_positions': scrap_product_group, 'page': 'home', 'user': request.user})
 
 
 @login_required
 def create(request):
-    if request.method == "POST":
+    if request.method == 'POST':
         user = request.user
-        product_name = request.POST.get("query")
+        product_name = request.POST.get('query')
 
         try:
             last_query_id = ScrapProduct.objects.last().query_id
         except:
             last_query_id = 0
 
-        if request.POST.get('ebay') == 'checked':
-            query_ebay = parce.scrap_ebay(product_name)
-            if query_ebay:
-                write_db(product_name, last_query_id, query_ebay, user)
+        try:
+            if request.POST.get('ebay') == 'checked':
+                query_ebay = parce.scrap_ebay(product_name)
+                if query_ebay:
+                    write_db(product_name, last_query_id, query_ebay, user)
+        except AttributeError:
+            pass
 
-        if request.POST.get('ali') == 'checked':
-            query_ali = parce.scrap_ali(product_name)
-            if query_ali:
-                write_db(product_name, last_query_id, query_ali, user)
+        try:
+            if request.POST.get('ali') == 'checked':
+                query_ali = parce.scrap_ali(product_name)
+                if query_ali:
+                    write_db(product_name, last_query_id, query_ali, user)
+        except AttributeError:
+            pass
 
-        if request.POST.get('avito') == 'checked':
-            query_avito = parce.scrap_avito(product_name)
-            if query_avito:
-                write_db(product_name, last_query_id, query_avito, user)
+        try:
+            if request.POST.get('avito') == 'checked':
+                query_avito = parce.scrap_avito(product_name)
+                if query_avito:
+                    write_db(product_name, last_query_id, query_avito, user)
+        except AttributeError:
+            pass
 
     return HttpResponseRedirect("/")
 
@@ -105,14 +114,14 @@ def edit(request, id):
     try:
         person = ScrapProduct.objects.get(id=id)
 
-        if request.method == "POST":
+        if request.method == 'POST':
             person.product_scrap_name = request.POST.get("product_scrap_name")
             person.product_price = request.POST.get("product_price")
             person.save()
             return HttpResponseRedirect("/")
         else:
             print(f'-------------------\n{id}\n-------------------')
-            return render(request, "scrap/edit.html", {"person": person, 'page': 'edit', 'user': request.user})
+            return render(request, 'scrap/edit.html', {'person': person, 'page': 'edit', 'user': request.user})
     except ScrapProduct.DoesNotExist:
         return HttpResponseNotFound(not_found)
 
@@ -132,8 +141,8 @@ def results(request):
                               ORDER BY query_id DESC"""
 
     scrap_product_group = ScrapProduct.objects.raw(select_data)
-    return render(request, "scrap/results.html",
-                  {"group_positions": scrap_product_group, 'page': 'result', 'user': request.user})
+    return render(request, 'scrap/results.html',
+                  {'group_positions': scrap_product_group, 'page': 'result', 'user': request.user})
 
 
 @login_required
@@ -149,12 +158,12 @@ def result(request, query_id=0):
                                               GROUP BY query_id""")
         if positions:
             data = {
-                "positions": positions,
-                "query_name": query_name,
+                'positions': positions,
+                'query_name': query_name,
                 'page': 'result',
                 'user': request.user,
             }
-            return render(request, "scrap/result.html", data)
+            return render(request, 'scrap/result.html', data)
         else:
             return HttpResponseNotFound(not_found)
     except ScrapProduct.DoesNotExist:
@@ -167,21 +176,21 @@ def result(request, query_id=0):
 @login_required
 def generate_cp(request):
     try:
-        if request.method == "POST":
+        if request.method == 'POST':
             checkbox_new = request.POST.getlist('new')
-            checkbox_bu = request.POST.getlist("bu")
+            checkbox_bu = request.POST.getlist('bu')
             if checkbox_new or checkbox_bu:
                 # print(f'-------------------\n{checkbox_new}\n-------------------')
                 # print(f'-------------------\n{checkbox_bu}\n-------------------')
 
                 new = ScrapProduct.objects.filter(id__in=checkbox_new)
                 bu = ScrapProduct.objects.filter(id__in=checkbox_bu)
-                return render(request, "scrap/generate_cp.html", {"new": new, "bu": bu, 'user': request.user})
+                return render(request, 'scrap/generate_cp.html', {'new': new, 'bu': bu, 'user': request.user})
             else:
                 return redirect(request.META.get('HTTP_REFERER'))
         # else:
         #     print(f'-------------------\nНу чет такое себе\n-------------------')
-        return HttpResponseRedirect("/")
+        return HttpResponseRedirect('/')
     except Exception:
         return HttpResponseNotFound(not_found)
 
@@ -195,7 +204,7 @@ def delete(request):
     # # print(f'last {last_id}')
     # # print(f'first {first_id}')
     # parce.delete_all(first_id, last_id)
-    return HttpResponseRedirect("/")
+    return HttpResponseRedirect('/')
     # try:
     #     person = ebay.objects.get(id=id)
     #     person.delete()
@@ -208,13 +217,15 @@ def delete(request):
 @login_required
 def dele(request, id):
     try:
-        product = ScrapProduct.objects.get(id=id)
-        product.delete()
-        return redirect(request.META.get('HTTP_REFERER'))
+        # product = ScrapProduct.objects.get(id=id)
+        products = ScrapProduct.objects.filter(query_id=id)
+        print(products)
+        products.delete()
+        return HttpResponseRedirect('/')
     except ScrapProduct.DoesNotExist:
         return HttpResponseNotFound(not_found)
 
 
 @login_required
 def contact(request):
-    return render(request, "scrap/contact.html")
+    return render(request, 'scrap/contact.html')

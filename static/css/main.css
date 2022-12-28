@@ -846,11 +846,11 @@ iframe {
             justify-content: center;
     height: 70vh; }
     .home .login form {
-      max-width: 30rem;
       padding: 30px; }
-    .home .login form .errorlist {
-      color: #c52c2c;
-    }
+      .home .login form .errorlist {
+        color: #c52c2c; }
+      .home .login form .helptext {
+        display: none; }
       .home .login form p {
         display: -webkit-box;
         display: -ms-flexbox;
@@ -864,7 +864,7 @@ iframe {
         margin: 15px 0; }
       .home .login form label {
         margin-right: 30px; }
-      .home .login form input[type='text'], .home .login form input[type='password'] {
+      .home .login form input[type='text'], .home .login form input[type='password'], .home .login form input[type='email'] {
         border: 1px solid #ccc;
         padding: 6px 12px;
         border-radius: 0.5rem; }

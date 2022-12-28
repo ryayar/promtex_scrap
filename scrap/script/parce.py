@@ -156,7 +156,10 @@ def scrap_ali(src='', dollar_rate=57.5, our_course=100):
 def scrap_avito(src='', dollar_rate=57.5, our_course=100):
     ppp = {}
     position = []
-    driver = webdriver.Chrome(executable_path='chromeDriver\chromedriver.exe')
+    options = webdriver.ChromeOptions()
+    options.add_argument("--no-sandbox")
+    options.add_argument("--headless")
+    driver = webdriver.Chrome(executable_path='chromeDriver/chromedriver.exe', options=options)
     driver.get(f"https://www.avito.ru/all?q={src}")
     html = driver.find_element(By.TAG_NAME, 'html')
     for i in range(0, 15):
