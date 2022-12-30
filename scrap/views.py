@@ -18,31 +18,14 @@ not_found = "<h2 style='" \
 # получение данных из бд
 @login_required
 def index(request):
-    if request.user != 'Admin' or request.user != 'admin':
-        select_data = f"""SELECT id, query_id, product_query_name, product_platform
+    select_data = f"""SELECT id, query_id, product_query_name, product_platform
                       FROM scrap_scrapproduct
                       WHERE user_name = '{request.user}'
                       GROUP BY query_id
                       ORDER BY query_id DESC"""
-    else:
-        select_data = f"""SELECT id, query_id, product_query_name, product_platform
-                              FROM scrap_scrapproduct
-                              GROUP BY query_id
-                              ORDER BY query_id DESC"""
 
     scrap_product_group = ScrapProduct.objects.raw(select_data)
 
-    # for i in scrap_product_group:
-    #     print(i)
-    # print(scrap_product_group)
-    # scrap_product_group = ScrapProduct.objects.all()
-    temp = ''
-    # scrap_product_1 = ScrapProduct.objects.values_list('query_id')
-    # scrap_product_2 = ScrapProduct.objects.values_list('product_platform')
-    # # scrap_product_group = temp.union(scrap_product_1, scrap_product_2).order_by('query_id')
-    # print(scrap_product_1)
-    # print('*'*50)
-    # print(scrap_product_2)
     return render(request, 'scrap/index.html',
                   {'group_positions': scrap_product_group, 'page': 'home', 'user': request.user})
 
