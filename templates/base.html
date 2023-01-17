@@ -14,14 +14,17 @@
     <header class="header">
         <div class="header__body">
             <div class="header__nav">
-                <div class="header__logo"><a href="{% url 'home' %}"><img class="logo" src="{% static 'images/logo.png' %}" width="40"></a></div>
+                <div class="header__logo"><a href="{% url 'home' %}"><img class="logo"
+                                                                          src="{% static 'images/logo.png' %}"
+                                                                          width="40"></a></div>
                 <div class="header__nav-links">
                     <a class="header__nav-link{% if page == 'home' %} is-active{% endif %}" href="{% url 'home' %}">Поиск</a>
                     <a class="header__nav-link{% if page == 'result' %} is-active{% endif %}" href="{% url 'result' %}">Результаты</a>
                     <a class="header__nav-link{% if page == 'edit' %} is-active{% endif %}" href="">Управление</a>
                 </div>
             </div>
-            <div class="header__visitor"><span>{% if user.id != None %}<a href="{% url 'logout' %}">{{ user }}</a>{% endif %} </span></div>
+            <div class="header__visitor"><span>{% if user.id != None %}<a href="{% url 'logout' %}">{{ user }}</a>{% endif %} </span>
+            </div>
         </div>
     </header>
     <main class="home">
