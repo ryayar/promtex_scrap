@@ -20,6 +20,14 @@ class ScrapProduct(models.Model):
         return f'{self.product_platform} — {self.product_query_name} — {self.product_price}'
 
 
+class Item(models.Model):
+    country = models.CharField(max_length=255)
+    delivery_time_days = models.IntegerField()
+    delivery_time_text = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.country
+
 #
 # async def acreate_person():
 #     person = await Person.objects.acreate(name="Tim", age=26)

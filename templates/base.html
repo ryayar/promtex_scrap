@@ -20,7 +20,7 @@
                 <div class="header__nav-links">
                     <a class="header__nav-link{% if page == 'home' %} is-active{% endif %}" href="{% url 'home' %}">Поиск</a>
                     <a class="header__nav-link{% if page == 'result' %} is-active{% endif %}" href="{% url 'result' %}">Результаты</a>
-                    <a class="header__nav-link{% if page == 'edit' %} is-active{% endif %}" href="">Управление</a>
+                    <a class="header__nav-link{% if page == 'settings' %} is-active{% endif %}" href="{% url 'settings' %}">Управление</a>
                 </div>
             </div>
             <div class="header__visitor"><span>{% if user.id != None %}<a href="{% url 'logout' %}">{{ user }}</a>{% endif %} </span>
@@ -35,7 +35,6 @@
     <div class="footer__copyright"><span data-actual-year></span></div>
     <div class="footer__developer"></div>
 </footer>
-</div>
 <script>
     if (!('IntersectionObserver' in window)) {
         var script = document.createElement("script");
