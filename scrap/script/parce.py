@@ -39,6 +39,7 @@ def scrap_ebay(src='', dollar_rate=57.5, our_course=100):
                        needed_body.find_all('img', 's-item__image-img')]  # можно днлать replace с "l225" на до "l2000"
         prices = [i.text.replace('\xa0', '').replace('руб.', '').split(',')[0] for i in
                         needed_body.find_all('span', 's-item__price')]
+        # формула пересчета цены
         needed_price = []
         for price in prices:
             try:
@@ -121,7 +122,7 @@ def scrap_ali(src='', dollar_rate=57.5, our_course=100):
                                                      re.findall(r'product-snippet_ProductSnippet__shop__\S{6}', src))]
         prices = [i.text.replace(' ', '').replace('руб.', '').split(',')[0] for i in needed_body.find_all('div',
                                                              re.findall(r'snow-price_SnowPrice__mainM__\S{6}', src))]
-
+        # формула пересчета цены
         needed_price = []
         for price in prices:
             price = int(price)
@@ -156,14 +157,13 @@ def scrap_avito(src='', dollar_rate=57.5, our_course=100):
     position = []
     options = webdriver.ChromeOptions()
     options.add_argument("--no-sandbox")
-    options.add_argument("--headless")
+    options.add_argument("--headless") # безголовый хром
     driver = webdriver.Chrome(executable_path='chromeDriver/chromedriver.exe', options=options)
     driver.get(f"https://www.avito.ru/all?q={src}")
     html = driver.find_element(By.TAG_NAME, 'html')
     for i in range(0, 15):
-        html.send_keys(Keys.PAGE_DOWN)
+        html.send_keys(Keys.PAGE_DOWN) # нужно, так как картинки за экраном не прогружаются
     src = driver.page_source
-
     driver.close()
 
     soup = BeautifulSoup(src, 'lxml')
@@ -173,6 +173,7 @@ def scrap_avito(src='', dollar_rate=57.5, our_course=100):
     prices = [i.get('content') for i in soup.find_all(attrs={'itemprop': 'price'})]
     city = [i.next.next.text for i in soup.find_all('div', re.findall(r'geo-root-\S{4,6}', src))]
 
+    # формула пересчета цены
     needed_price = []
     for price in prices:
         price = int(price)
