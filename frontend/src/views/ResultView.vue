@@ -5,14 +5,21 @@
         <h2>{{ positions[0].product_query_name }}</h2>
       </div>
     </div>
-
     <div class="home__forms-title home__title"><span>Все результаты по запросу: "{{
         positions[0].product_query_name
       }}"</span></div>
-    <!--    <GenerateCP v-if="isVisible" v-model="responseData" />-->
     <div class="home__forms-table" v-if="isVisible">
-    <textarea class="home__generate_cp" v-model="responseData[0].product_query_name" cols="50" rows="20">
-    </textarea>
+      <div class="home__generate_cp">
+        {{ positions[0].product_query_name }}<br>
+        <span v-for="item in items.new" :key="item">
+      <span>Новый {{ item.product_price }}</span> <span v-if="item.product_country === 'Россия'">1 неделя</span><span
+            v-else-if="item.product_country === 'Китай'">4-6 недель</span><span v-else>2-3 недели</span> <br>
+    </span>
+        <span v-for="item in items.bu" :key="item">
+      <span>Б/У {{ item.product_price }}</span> <span v-if="item.product_country === 'Россия'">1 неделя</span><span
+            v-else-if="item.product_country === 'Китай'">4-6 недель</span><span v-else>2-3 недели</span> <br>
+    </span>
+      </div>
     </div>
     <div class="home__forms-body">
       <div class="positions-forms">
@@ -24,7 +31,6 @@
               <img :src="product.product_link_img" alt="" width="200" height="200">
             </a>
           </div>
-
           <div class="position__body">
             <div class="position__name">
               <a :href="product.product_link" target="_blank">{{ product.product_scrap_name }}</a>
@@ -47,7 +53,6 @@
             </div>
             <div class="position__platform">Платформа: {{ product.product_platform }}</div>
           </div>
-
           <div class="position__cp">
             <div class="position__price">{{ product.product_price }}</div>
             <div class="cp__bu">
@@ -87,13 +92,14 @@ export default {
         bu: false,
         new: false
       },
+      items: [],
       isVisible: false,
-      responseData: ''
+      responseData: '',
     }
   },
   created() {
     const id = this.$route.params.id;
-    axios.post(`http://localhost:8000/api_result/${id}/`,
+    axios.post(`http://193.187.96.247:8000/api_result/${id}/`,
         {
           query_id: id,
           user: 'ПростойРаботяга'
@@ -103,10 +109,9 @@ export default {
         })
   },
   methods: {
-    showResponse(dataBu, dataNew) {
-      console.log(dataBu)
-      console.log(dataNew)
-      this.responseData = dataBu;
+    showResponse(data) {
+      console.log(data)
+      this.items = data;
       this.isVisible = true;
     },
     generateCP() {
@@ -124,16 +129,15 @@ export default {
           neww.push(checkbox.value)
         }
       })
-      axios.post('http://localhost:8000/api_generate_cp/', {
+      axios.post('http://193.187.96.247:8000/api_generate_cp/', {
         bu: bu,
         new: neww
       })
           .then(response => {
-            // console.log(response.data);
-            this.showResponse(response.data.bu, response.data.new);
+            this.showResponse(response.data);
           })
-    }
-  }
+    },
+  },
 }
 </script>
 

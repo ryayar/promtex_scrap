@@ -22,11 +22,11 @@
           </thead>
           <tbody>
           <tr v-for="item in items" :key="item.id">
-            <td v-if="item.isEdit"><input v-model="item.country" type="text"></td>
+            <td v-if="item.isEdit"><input v-model.trim="item.country" type="text"></td>
             <td v-else><span>{{ item.country }}</span></td>
-            <td v-if="item.isEdit"><input v-model="item.delivery_time_days" type="number"></td>
+            <td v-if="item.isEdit"><input v-model.trim="item.delivery_time_days" type="number"></td>
             <td v-else><span>{{ item.delivery_time_days }}</span></td>
-            <td v-if="item.isEdit"><input v-model="item.delivery_time_text" type="text"></td>
+            <td v-if="item.isEdit"><input v-model.trim="item.delivery_time_text" type="text"></td>
             <td v-else><span>{{ item.delivery_time_text }}</span></td>
             <td>
               <button v-if="item.isEdit" class="secd button" @click="saveItem(item.id)">Сохранить</button>
@@ -54,7 +54,7 @@ export default {
     }
   },
   created() {
-    axios.post('http://localhost:8000/api_settings/')
+    axios.post('http://193.187.96.247:8000/api_settings/')
         .then(response => {
           this.items = response.data
         })
@@ -88,7 +88,7 @@ export default {
     saveItem(id) {
       const item = this.items.find(item => item.id === id);
       item.isEdit = false;
-      axios.post(`http://localhost:8000/api_save_item/`, {
+      axios.post(`http://193.187.96.247:8000/api_save_item/`, {
             id: id,
             country: item.country,
             delivery_time_days: item.delivery_time_days,
@@ -102,7 +102,7 @@ export default {
           })
     },
     deleteItem(id) {
-      axios.post(`http://localhost:8000/api_delete_item/${id}/`, {
+      axios.post(`http://193.187.96.247:8000/api_delete_item/${id}/`, {
         query_id: id,
       })
           .then(response => {

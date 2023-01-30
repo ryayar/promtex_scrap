@@ -323,6 +323,7 @@ h2 {
   }
 
   &__forms-body {
+    max-width: 80rem;
     margin: 0 auto;
     background: #fff;
   }
@@ -331,10 +332,6 @@ h2 {
     border: 1px solid $color-light-gray;
     border-radius: 0.5rem;
     padding: 6px 12px;
-    width: 100%;
-    height: 18em;
-    font-size: 16px;
-    resize: none;
   }
 
   &__forms-settings, &__forms-delivery_time {

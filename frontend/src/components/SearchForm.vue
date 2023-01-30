@@ -5,8 +5,11 @@
         <span>Поиск</span>
       </div>
       <div class="home__search-form-body">
-        <input class="home__search-form__input" v-model="query" type="text" name="query">
+        <input class="home__search-form__input" v-model.trim="query" type="text" name="query">
         <input class="home__search-form__button button" type="submit" value="Поиск">
+      </div>
+      <div v-if="loading" class="loading-overlay">
+        <div class="loading-spinner"></div>
       </div>
     </div>
     <div class="home__settings">
@@ -54,6 +57,7 @@ export default {
         ali: false,
         avito: false
       },
+      loading: false,
       showSettings: false
     }
   },
@@ -70,8 +74,8 @@ export default {
         alert('Поле поиска не может быть пустым!')
         return
       }
-
-      axios.post('http://localhost:8000/api_create/', {
+      this.loading = true;
+      axios.post('http://193.187.96.247:8000/api_create/', {
             query: this.query,
             ebay: this.platforms.ebay,
             ali: this.platforms.ali,
@@ -89,17 +93,90 @@ export default {
 }
 </script>
 
-<style scoped>
-/*.slide-fade-enter-active {*/
-/*  transition: all .5s ease;*/
-/*}*/
 
-/*.slide-fade-leave-active {*/
-/*  transition: all .5s cubic-bezier(1.0, 0.5, 0.8, 1.0);*/
-/*}*/
+<style>
+.loading-overlay {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-/*.slide-fade-enter-to, .slide-fade-leave-to {*/
-/*  transform: translateY(-10px);*/
-/*  opacity: 0;*/
-/*}*/
+.loading-spinner {
+  width: 50px;
+  height: 50px;
+  border: 2px solid #fff;
+  border-top-color: #3498db;
+  border-radius: 50%;
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
 </style>
+
+<!--<style scoped>-->
+<!--.loading-overlay {-->
+<!--  position: fixed;-->
+<!--  top: 0;-->
+<!--  left: 0;-->
+<!--  right: 0;-->
+<!--  bottom: 0;-->
+<!--  background: rgba(255, 255, 255, 0.8);-->
+<!--  z-index: 999;-->
+<!--}-->
+
+<!--.loading-spinner {-->
+<!--  position: absolute;-->
+<!--  top: 50%;-->
+<!--  left: 50%;-->
+<!--  transform: translate(-50%, -50%);-->
+<!--  width: 50px;-->
+<!--  height: 50px;-->
+<!--  border: 2px solid #fff;-->
+<!--  border-top-color: #3498db;-->
+<!--  border-radius: 50%;-->
+<!--  animation: spin 1s ease-in-out infinite;-->
+<!--}-->
+
+<!--/*.loading {*/-->
+<!--/*  position: fixed;*/-->
+<!--/*  left: 0;*/-->
+<!--/*  top: 0;*/-->
+<!--/*  width: 100%;*/-->
+<!--/*  height: 100%;*/-->
+<!--/*  background-color: rgba(0, 0, 0, 0.5);*/-->
+<!--/*  z-index: 999;*/-->
+<!--/*  display: flex;*/-->
+<!--/*  align-items: center;*/-->
+<!--/*  justify-content: center;*/-->
+<!--/*}*/-->
+
+<!--.loading-spinner {-->
+
+<!--}-->
+
+<!--@keyframes spin {-->
+<!--  to { transform: rotate(360deg); }-->
+<!--}-->
+
+<!--/*.slide-fade-enter-active {*/-->
+<!--/*  transition: all .5s ease;*/-->
+<!--/*}*/-->
+
+<!--/*.slide-fade-leave-active {*/-->
+<!--/*  transition: all .5s cubic-bezier(1.0, 0.5, 0.8, 1.0);*/-->
+<!--/*}*/-->
+
+<!--/*.slide-fade-enter-to, .slide-fade-leave-to {*/-->
+<!--/*  transform: translateY(-10px);*/-->
+<!--/*  opacity: 0;*/-->
+<!--/*}*/-->
+<!--</style>-->

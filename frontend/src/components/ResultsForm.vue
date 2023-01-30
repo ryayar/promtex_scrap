@@ -51,13 +51,13 @@ export default {
   },
   created() {
     if (this.msg === 'home') {
-      axios.post('http://localhost:8000/api_index/')
+      axios.post('http://193.187.96.247:8000/api_index/')
           .then(response => {
             this.queries = response.data
           })
     }
     if (this.msg === 'results') {
-      axios.post('http://localhost:8000/api_results/')
+      axios.post('http://193.187.96.247:8000/api_results/')
           .then(response => {
             this.queries = response.data
           })
