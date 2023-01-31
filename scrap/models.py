@@ -20,27 +20,10 @@ class ScrapProduct(models.Model):
         return f'{self.product_platform} — {self.product_query_name} — {self.product_price}'
 
 
-#
-# async def acreate_person():
-#     person = await Person.objects.acreate(name="Tim", age=26)
-#     print(person.name)
-# # запускаем асинхронную функцию acreate_person
-# asyncio.run(acreate_person())
-#
-# tom = Person(name="Tom", age=23)
-# tom.save()
-#
-# people = Person.objects.bulk_create([
-#     Person(name="Kate", age=24),
-#     Person(name="Ann", age=21),
-# ])
-#
-# for person in people:
-#     print(f"{person.id}. {person.name}")
-#
-# tom = Person.objects.get(name="Tom")
-# bob = Person.objects.get(age=23)
+class Item(models.Model):
+    country = models.CharField(max_length=255)
+    delivery_time_days = models.IntegerField()
+    delivery_time_text = models.CharField(max_length=255)
 
-# people = Person.objects.all()[5:10]
-# for person in people:
-#     print(f"{person.id}.{person.name} - {person.age}")
+    def __str__(self):
+        return self.country

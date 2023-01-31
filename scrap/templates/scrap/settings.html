@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}{{ positions.0.product_query_name }}{% endblock title %}
+{% block content %}
+
+<div class="home__page">
+    <div class="home__page-name">
+        <h2>Настройки</h2>
+    </div>
+</div>
+
+<div class="home__forms-title home__title"><span>Настройки</span></div>
+<form method="POST" action="/add_settings/">
+{% csrf_token %}
+<table>
+    <col style="width:25%">
+    <col style="width:25%">
+    <col style="width:25%">
+    <col style="width:25%">
+    <thead>
+        <tr>
+            <th>Страна</th>
+            <th>Срок поставки (дни)</th>
+            <th>Срок поставки (текст)</th>
+            <th>Управление</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in items %}
+            <tr>
+                <td>{{ item.country.title }}</td>
+                <td>{{ item.delivery_time_days }}</td>
+                <td>{{ item.delivery_time_text }}</td>
+                <td>
+                    <form action="/delete_item/" method="post">
+                        {% csrf_token %}
+                        <input type="submit" value="Delete" onclick="return confirm('Are you sure?')">
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<button id="add-button">Add</button>
+
+</form>
+{% endblock content %}

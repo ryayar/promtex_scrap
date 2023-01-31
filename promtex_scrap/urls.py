@@ -24,39 +24,3 @@ urlpatterns = [
     path('', include('scrap.urls')),
     path('accounts/', include('accounts.urls'))
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-
-
-# Так было
-# from django.contrib import admin
-# from django.urls import path, re_path, include
-# from django.views.generic import TemplateView
-# from scrap import views
-#
-# urlpatterns = [
-#     path('admin/', admin.site.urls),
-#     path("", views.index),
-#     path("create/", views.create),
-#     path("edit/<int:id>/", views.edit),
-#     path("delete/", views.delete),
-#     path("dele/<int:id>/", views.dele),
-#     path("contact/", TemplateView.as_view(template_name="contact.html")),
-#     path("result/", TemplateView.as_view(template_name="results.html")),
-#     path("result/<int:id>/", views.edit),
-#     path("generate_cp/", views.generate_cp),
-# ]
-
-
-# product_patterns = [
-#     path("", views.products),
-#     path("new", views.new),
-#     path("top", views.top),
-# ]
-#
-# urlpatterns = [
-#     path('admin/', admin.site.urls),
-#     path('', views.index),
-#     path("products/<int:id>/", include(product_patterns)),
-#     path("products/", include(product_patterns)),
-#     path("about/", TemplateView.as_view(template_name="about.html")),
-#     path("contact/", TemplateView.as_view(template_name="contact.html")),
-# ]
